@@ -1,0 +1,21 @@
+{% extends 'admin/change_form.html' %}
+{% load static %}
+
+{% block admin_change_form_document_ready %}
+{{ block.super }}
+<script>
+(function($) {
+    $('#id_greeting_card').on('click', function(){
+        if($('#id_greeting_card').prop('checked') == true){
+            $('#id_pot_size').prop('readonly', false)
+            $('#id_pot_size').val('')
+            $('#id_pot_size').css('background', 'white')
+        }else{
+            $('#id_pot_size').prop('readonly', true)
+            $('#id_pot_size').val('')
+            $('#id_pot_size').css('background', 'lightgray')
+        }
+    })
+})(django.jQuery);
+</script>
+{% endblock %}
