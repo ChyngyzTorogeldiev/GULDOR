@@ -1,5 +1,7 @@
 {% load static %}
+
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -18,28 +20,104 @@
   <link href="css/shop-homepage.css" rel="stylesheet">
 
 </head>
-<style>
-    body {
-      padding-top: 56px;
-    }
-</style>
+
 <body>
 
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="{% url 'base' %}">flower online store</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'cart' %}">Корзина <span class="badge badge-pill badge-danger">{{ cart.products.count }}</span></a>
-          </li>
-        </ul>
-      </div>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white">
+    <a class="navbar-brand" href="{% url 'base' %}"><img src="{% static 'media/logo.png' %}" alt="Logo"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+
+      <ul class="nav nav-pills">
+
+        <li class="nav-item dropdown">
+
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true">
+            Виды цветов
+          </a>
+
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+            <a class="dropdown-item" href="{% url 'roses-bouquet' %}">Букеты из роз</a>
+            <a class="dropdown-item" href="{% url 'assorted-bouquets' %}">Другие виды цветов</a>
+            <a class="dropdown-item" href="{% url 'season-bouquets' %}">Сезонные букеты</a>
+            
+          </div>
+
+        </li>
+
+        <li class="nav-item dropdown">
+
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Букеты для торжеств
+          </a>
+
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+            <a class="dropdown-item" href="{% url 'hundredrose-bouquets' %}">101 роза</a>
+            <a class="dropdown-item" href="{% url 'wedding-bouquets' %}">Свадебные букеты</a>
+            <a class="dropdown-item" href="{% url 'basket-bouquets' %}">Букеты в корзинах</a>
+
+          </div>
+
+        </li>
+
+        <li class="nav-item dropdown">
+
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Комнатные цветы и растения
+          </a>
+
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+            <a class="dropdown-item" href="{% url 'flowers-inpots' %}">Цветы в горшках</a>
+            <a class="dropdown-item" href="{% url 'home-plants' %}">Комнатные растения</a>
+            <a class="dropdown-item" href="{% url 'decor-plants' %}">Декоративные растения</a>
+
+          </div>
+
+        </li>
+
+        <li class="">
+
+          <a class="nav-link dropdown-toggle" href="{% url 'campaign-list' %}" id="navbarDropdown" role="button" data-toggle="" aria-haspopup="true">
+            Специальные предложения
+          </a>
+
+        </li>
+
+        <nav class="navbar navbar-light bg-white">
+
+          <form class="form-inline">
+
+            <input class="form-control mr-sm-2" type="search" placeholder="Искать товар" aria-label="Search" >
+            <button class="btn btn-outline-info" type="submit">Поиск</button> 
+
+          </form>
+
+        </nav>
+
+        <nav class="navbar navbar-light bg-white">
+
+          <div class="container">            
+
+            <a class="navbar-brand" href="#">
+              <img src="{% static 'media/delivery.jpg' %}" alt="" width="40">
+            </a>
+
+            <a class="navbar-brand" href="{% url 'cart' %}">
+              <img src="{% static 'media/basket.png' %}" width="36"><span class="badge badge-pill badge-danger">{{ cart.products.count }}</span>
+            </a>
+            
+          </div>
+
+        </nav>
+   
     </div>
+
   </nav>
 
   <!-- Page Content -->
@@ -47,15 +125,20 @@
 
     <div class="row">
 
+      
+      <!-- /.col-lg-3 -->
+
       <div class="col-lg-3 mt-5">
+        
         <div class="list-group">
+
           {% for category in categories %}
           <a href="{{ category.url }}" class="list-group-item">{{ category.name }} ({{ category.count }})</a>
           {% endfor %}
-        </div>
 
+        </div>
+  
       </div>
-      <!-- /.col-lg-3 -->
 
       <div class="col-lg-9">
         {% block content %}

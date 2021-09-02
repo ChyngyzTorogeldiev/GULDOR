@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page %} 
+
+
+<div class="container d-flex justify-content-around flex-wrap">
+    <table>
+        <tr>
+            <th><h2>{{ basketfl_object.name }}</h2></th>
+            <th style="padding-left: 30px;"><h4>Описание на товар:</h4></th>
+            <th style="padding-left: 40px;"><button type="button" class="btn btn-info">Забронировать товар</button></th>
+        </tr> 
+
+        <tr>
+            <td><div class="stars">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                </div>
+            </td>
+            
+            <td style="padding-left: 30px;"><p>{{ basketfl_object.description }}</p></td>
+        </tr>
+        <td>
+            {% if basketfl_object.sale %}
+                <h6 style="text-decoration: line-through; font-weight: bolder;">Цена: {{ basketfl_object.price }} Сом</h6>
+                <h5 style="color: red;">Цена со скидкой: {{ basketfl_object.get_sale }} Сом</h5>
+            {% else %} 
+                <h5>Цена: {{ basketfl_object.price }} Сом</h5>
+            {% endif %}
+        </td>
+
+        <tr>
+            <td>
+                {% if basketfl_object.image %} 
+                    <img src="{{ basketfl_object.image.url }}", width="500px" alt="">
+                {% endif %}
+                <hr>
+                {% if basketfl_object.image2 %}
+                    <img src="{{ basketfl_object.image2.url }}", width="500px" alt="">
+                {% endif %}
+            </td>
+            
+        </tr>
+        <tr>
+            <td><br><h4>Оставить отзыв:</h4></td>
+        </tr>
+        <tr>
+            <td>
+                <div class="create-container">
+                    <form action="#" method="POST" style="padding-top: 20px;">
+                        {% csrf_token %}
+                        <input class="form-control mr-sm-2" type="text" name="name" placeholder="ФИО"><br>
+                        <input class="form-control mr-sm-2" type="text" name="review" placeholder="Напишите Ваш отзыв"><br>
+                        <a href=""><button class="btn btn-outline-info" type="submit">Отправить</button></a>
+                    </form>
+                </div>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h2>{{ object.user}}</h2>
+                <div>{{ object.text}}</div>
+            </td>
+        </tr>
+       
+    </table>
+    		
+</div>
+<br>
+<br>
+
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page %}
+<div class="container">
+    <h3>Сезонные цветы</h3>
+
+    <div class="row">
+        <div class="bouquet-list d-flex justify-content-around flex-wrap">
+        
+            {% for season in seasonbouquets %}
+            
+                    <div class="bouquet p-2">
+                        <div class="image">
+                            {% if season.image %}
+                                <a href="{% url 'season' season.id %}"><img src="{{ season.image.url }}" width="300"/></a>
+                            {% else %}
+                                <a href="{% url 'season' season.id %}"><img src="{% static 'media/nophoto.jpg' %}" width="300"/></a>
+                            {% endif %}
+                        </div>
+                        <h4 style="font-size: 18px; font-weight: bold; color: rgb(20, 110, 146);">{{ season.name }}</h4></a>
+                        {% if season.sale %}
+                            <p style="color: rgb(38, 138, 83); font-size: smaller; font-weight: bolder; text-decoration: line-through;">Цена: {{ season.price }} Сом</p>
+                        {% else %}
+                            <p style="color: rgb(38, 138, 83); font-size: smaller; font-weight: bolder;">Цена: {{ season.price }} Сом</p>
+                        {% endif %}
+                        {% if season.sale %}
+                            <p style="color: rgb(211, 29, 29); font-size: 14px; font-weight: bolder;">Цена со скидкой: {{ season.get_sale }} Сом</p>
+                        {% endif %}
+                        <div class="stars">
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                        </div>
+                    </div>
+            
+
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<br>
+<br>
+
+{% endblock %}

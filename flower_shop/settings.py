@@ -38,8 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'mainapp',
-    'crispy_forms'
+    
+    'crispy_forms',
+    'core',
+    'flowertypes',
+    'anniversaryfl',
+    'homeflowers',
+    'campaign',
+    'others',
 ]
 
 MIDDLEWARE = [
