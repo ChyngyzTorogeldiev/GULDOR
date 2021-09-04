@@ -10,6 +10,9 @@ from .mixins import CategoryDetailMixin, CartMixin
 from .forms import OrderForm
 from .utils import recalc_cart
 
+class DeliveryPage(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'core/delivery.html')
 
 class BaseView(CartMixin, View):
 
@@ -24,6 +27,16 @@ class BaseView(CartMixin, View):
             'cart': self.cart
         }
         return render(request, 'base.html', context)
+
+    # def BaseView(request):
+    #     search_query = request.Get.get('search','')
+    #     if search_query:
+    #         flowers = Flower.object.filter(products__icontains=search_query)
+    #     else:
+    #         flowers = Flower.objects.all()
+    #     return render(request, 'base.html', search_query )
+
+
 
 
 class ProductDetailView(CartMixin, CategoryDetailMixin, DetailView):
