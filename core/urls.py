@@ -28,7 +28,5 @@ urlpatterns = [
     path('checkout/', CheckoutView.as_view(), name='checkout'),
     path('make-order/', MakeOrderView.as_view(), name='make_order'),
     path('delivery', DeliveryPage.as_view(), name='delivery'),
-    path('search', views.Search.as_view(), name='search'),
-    
-    
+    path('search', views.Search.as_view(), name='search')   
 ]
