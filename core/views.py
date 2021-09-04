@@ -3,12 +3,17 @@ from django.shortcuts import render
 from django.contrib.contenttypes.models import ContentType
 from django.contrib import messages
 from django.http import HttpResponseRedirect
-from django.views.generic import DetailView, View
+from django.views.generic import DetailView, View, ListView
 
 from .models import Flower, Flowerinpot, Category, LatestProducts, Customer, Cart, CartProduct
 from .mixins import CategoryDetailMixin, CartMixin
 from .forms import OrderForm
 from .utils import recalc_cart
+
+
+class DeliveryPage(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'core/delivery.html')
 
 
 class BaseView(CartMixin, View):
@@ -24,6 +29,17 @@ class BaseView(CartMixin, View):
             'cart': self.cart
         }
         return render(request, 'base.html', context)
+
+class Search(ListView):
+    paginate_by = 3
+
+    def get_queryset(self):
+        return Product.objects.filter(title__icontains=self.request.Get.get("q"))
+
+    def get_products_data(self,*args, **kwargs):
+        products = super().get_products_data(*args, **kwargs)
+        products["q"] = self.request.Get.get("q")
+        return products
 
 
 class ProductDetailView(CartMixin, CategoryDetailMixin, DetailView):
