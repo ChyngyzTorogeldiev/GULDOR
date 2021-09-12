@@ -1,7 +1,7 @@
 from django import template
 from django.utils.safestring import mark_safe
 
-from core.models import Flowerinpot
+from core.models import Flowerinpot, Flower, WeddingFlower, OtherFlower
 
 
 register = template.Library()
@@ -26,22 +26,25 @@ TABLE_CONTENT = """
 
 PRODUCT_SPEC = {
     'flower': {
-        'История': 'history',
-        'Строна': 'country',
-        'Аромат': 'scent',
-        'Состав': 'composition',
-        'Размер': 'size'
+        'Количество роз в букете': 'quantity',
+        'Длина букета: (см)': 'size',
+        'Наличие поздрвительной карты': 'greeting_card',
     },
     'flowerinpot': {
-        'История': 'history',
-        'Строна': 'country',
-        'Аромат': 'scent',
-        'Состав': 'composition',
-        'Размер': 'size',
+       
+        'Высота цветов с учетом горшка: (см)': 'size',
         'Наличие поздрвительной карты': 'greeting_card',
-        'Размер цветочного горшка': 'pot_size',
+        'Размер цветочного горшка: (см)': 'pot_size',
         'Цвет горшка': 'pot_color',
         'Инструкция по уходу': 'grooming_instructions'
+    },
+    'weddingflower': {
+        'Длина букета: (см)': 'size',
+        'Наличие бутоньерки': 'butonniere'
+    },
+    'otherflower': {
+        'Длина букета: (см)': 'size',
+        'Наличие поздрвительной карты': 'greeting_card',
     }
 }
 
@@ -58,8 +61,8 @@ def product_spec(product):
     model_name = product.__class__._meta.model_name
     if isinstance(product, Flowerinpot):
         if not product.greeting_card:
-            PRODUCT_SPEC['flowerinpot'].pop('Размер цветочного горшка', None)
+            PRODUCT_SPEC['flowerinpot'].pop('Размер цветочного горшка: (см)', None)
         else:
-            PRODUCT_SPEC['flowerinpot']['Размер цветочного горшка'] = 'pot_size'
+            PRODUCT_SPEC['flowerinpot']['Размер цветочного горшка: (см)'] = 'pot_size'
     return mark_safe(TABLE_HEAD + get_product_spec(product, model_name) + TABLE_TAIL)
 
