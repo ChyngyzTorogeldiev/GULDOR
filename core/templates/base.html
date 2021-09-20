@@ -11,7 +11,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>flower online store</title>
+  <title>Flower online store</title>
 
   <!-- Bootstrap core CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -71,9 +71,10 @@
 
         <nav class="navbar navbar-light bg-white">
 
-          <form class="form-inline" actions="{% url 'search' %}" method="get">
-
-            <input class="form-control mr-sm-2" type="search" placeholder="Искать товар" aria-label="Search" name="q">
+          <form class="form-inline" role='search' action='/s/'>
+          
+            <input class="form-control mr-sm-2" type="text" placeholder="Искать товар" aria-label="Search" name="q">
+            
             <button class="btn btn-outline-info" type="submit">Поиск</button> 
 
           </form>
@@ -91,6 +92,25 @@
             <a class="navbar-brand" href="{% url 'cart' %}">
               <img src="{% static 'media/basket.png' %}" width="36"><span class="badge badge-pill badge-danger">{{ cart.products.count }}</span>
             </a>
+
+
+
+            <!--Login icons-->
+
+
+            <a class="navbar-brand" href="http://127.0.0.1:8000/account/login">
+              
+              <img src="{% static 'media/login.png' %}" width="32"><span class="badge badge-pill badge-danger"></span></a>
+               {% if user.is_authenticated %}     
+                <li class="menu-right">Привет, {{ user.username }}!</li>
+                  
+                {% endif %}
+             
+
+            <a class="navbar-brand" href="http://127.0.0.1:8000/account/logout">
+              {% block menu_links %}{% endblock %}
+              <img src="{% static 'media/logout.png' %}" width="32"><span class="badge badge-pill badge-danger"></span>
+            </a> 
             
           </div>
 
@@ -114,10 +134,10 @@
       <img class="d-block w-100" src="{% static 'media/slide1.png' %}" alt="First slide">
     </div>
     <div class="carousel-item">
-      <img class="d-block w-100" src="{% static 'media/slide2.png' %}" alt="Second slide">
+      <a href="http://127.0.0.1:8000/category/weddingflowers/"><img class="d-block w-100" src="{% static 'media/slide5.png' %}" alt="Second slide"></a>
     </div>
     <div class="carousel-item">
-      <img class="d-block w-100" src="{% static 'media/slide3.jpeg' %}" alt="Third slide">
+      <a href="http://127.0.0.1:8000/category/otherflowers/"><img class="d-block w-100" src="{% static 'media/slide4.png' %}" alt="Third slide"></a>
     </div>
   </div>
     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -263,6 +283,9 @@
             <li>
               <a href="#!">Подарочный сертификат</a>
             </li>
+            <li>
+              <a href="#!">Контакты</a>
+            </li>
           </ul>
         
             <!-- Facebook -->
@@ -284,12 +307,50 @@
         ><i class="fa fa-whatsapp"></i
         ></a>
 
-
+<br>
+<br>
         </div>
         <!-- Grid column -->
 
       </div>
       <!-- Grid row -->
+
+      <!-- Section: Form -->
+      <section class="">
+        <form action="">
+          <!--Grid row-->
+          <div class="row d-flex justify-content-center">
+            <!--Grid column-->
+            <div class="col-auto">
+              <p class="pt-2">
+                <strong>Подпишитесь на нашу рассылку</strong>
+              </p>
+            </div>
+            <!--Grid column-->
+  
+            <!--Grid column-->
+            <div class="col-md-5 col-12">
+              <!-- Email input -->
+              <div class="form-outline form-white mb-4">
+                <input type="email" id="form5Example2" class="form-control" placeholder="Email" />
+               
+              </div>
+            </div>
+            <!--Grid column-->
+  
+            <!--Grid column-->
+            <div class="col-auto">
+              <!-- Submit button -->
+              <button type="submit" class="btn btn-primary">
+                Подписка
+              </button>
+            </div>
+            <!--Grid column-->
+          </div>
+          <!--Grid row-->
+        </form>
+      </section>
+      <!-- Section: Form -->
 
     </div>
     <!-- Footer Links -->
@@ -305,6 +366,7 @@
   
   <br>
 
+  
 
 
   <!--Footer -->

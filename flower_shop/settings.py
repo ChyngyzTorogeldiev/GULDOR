@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'homeflowers',
     'campaign',
     'others',
+    'account',
 ]
 
 MIDDLEWARE = [

@@ -4,6 +4,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.urls import reverse
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 User = get_user_model()
 
@@ -113,7 +114,7 @@ class WeddingFlower(Product):
 
     size = models.IntegerField(blank=True, default=0, verbose_name='Высота/Длина')
     butonniere = models.CharField(max_length=255, verbose_name='Бутоньерка')
-    b_image = models.ImageField(verbose_name='Фото бутоньерки')
+    b_image = models.ImageField(blank=True, verbose_name='Фото бутоньерки')
 
     def __str__(self):
         return "{} : {}".format(self.category.name, self.title)

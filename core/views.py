@@ -2,10 +2,10 @@ from django.db import transaction
 from django.shortcuts import render
 from django.contrib.contenttypes.models import ContentType
 from django.contrib import messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic import DetailView, View, ListView
 
-from .models import Flower, Flowerinpot, WeddingFlower, OtherFlower, Category, LatestProducts, Customer, Cart, CartProduct
+from .models import *
 from .mixins import CategoryDetailMixin, CartMixin
 from .forms import OrderForm
 from .utils import recalc_cart
@@ -30,16 +30,34 @@ class BaseView(CartMixin, View):
         }
         return render(request, 'base.html', context)
 
-class Search(ListView):
+
+# def search_bar(request):
+#     try:
+#         q = request.GET.get('q')
+#     except:
+#         q = None 
+#     if q:
+#         goods = Flower.objects.filter(title__icontains=q)
+#         context = {'query': q, 'goods': goods}
+#         template = 'search.html'
+#         context = {}
+#     return render(request, template, context)
+
+
+
+class SearchList(ListView):
     paginate_by = 3
 
     def get_queryset(self):
-        return Product.objects.filter(title__icontains=self.request.Get.get("q"))
+        return Flower.objects.filter(title__icontains=self.request.GET.get("q"))
 
-    def get_products_data(self,*args, **kwargs):
-        products = super().get_products_data(*args, **kwargs)
-        products["q"] = self.request.Get.get("q")
-        return products
+    def get_products_data(request, self,*args, **kwargs):
+        try:
+            products = super().get_products_data(*args, **kwargs)
+            products["q"] = self.request.GET.get("q")
+            return products
+        except:
+            return HttpResponse('По Вашему запросу ничего не найдено')
 
 
 class ProductDetailView(CartMixin, CategoryDetailMixin, DetailView):
@@ -85,18 +103,18 @@ class CategoryDetailView(CartMixin, CategoryDetailMixin, DetailView):
 class AddToCartView(CartMixin, View):
 
     def get(self, request, *args, **kwargs):
-        ct_model = kwargs.get('ct_model')
-        product_slug = kwargs.get('slug')
+        ct_model, product_slug = kwargs.get('ct_model'), kwargs.get('slug')
         content_type = ContentType.objects.get(model=ct_model)
         product = content_type.model_class().objects.get(slug=product_slug)
         cart_product, created = CartProduct.objects.get_or_create(
-            user=self.cart.owner, cart=self.cart, content_type=content_type, object_id=product.id,
+            user=self.cart.owner, cart=self.cart, content_type=content_type, object_id=product.id
         )
         if created:
             self.cart.products.add(cart_product)
         recalc_cart(self.cart)
-        # messages.add_message(request, messages.INFO, "Товар успешно добавлен")
+        messages.add_message(request, messages.INFO, "Товар успешно добавлен")
         return HttpResponseRedirect('/cart/')
+
 
 
 class DeleteFromCartView(CartMixin, View):
