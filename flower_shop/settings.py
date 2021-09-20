@@ -41,9 +41,7 @@ INSTALLED_APPS = [
     
     'core',
     'crispy_forms',
-    'flowertypes',
-    'anniversaryfl',
-    'homeflowers',
+    'flowercare',
     'campaign',
     'others',
     'account',

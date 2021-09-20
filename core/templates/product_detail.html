@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load specifications %}
 {% block content %}
+<link rel="stylesheet" type="text/css" href="styles.css">
     <nav aria-label="breadcrumb" class="mt-3">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{% url 'base' %}">Главная</a></li>
@@ -8,6 +9,7 @@
         <li class="breadcrumb-item active" aria-current="page">{{ product.title }}</li>
       </ol>
     </nav>
+
 <div class="row">
     <div class="col-md-4">
         <img src="{{ product.image.url }}" class="img-fluid">
@@ -17,8 +19,67 @@
         {% endif %}
     </div>
     <div class="col-md-8">
+
         <h3>{{ product.title }}</h3>
-        <p style="font-weight: bolder; color: rgb(214, 29, 29);">Цена: {{ product.price }} Сом</p>
+        
+ <!--rating-->
+    <style>
+      * {
+      margin: 0;
+      padding: 0;
+    }
+    .rate {
+      float: left;
+      height: 46px;
+      padding: 0 10px;
+    }
+    .rate:not(:checked) > input {
+      position: absolute;
+      top: -9999px;
+    }
+    .rate:not(:checked) > label {
+      float: right;
+      width: 1em;
+      overflow: hidden;
+      white-space: nowrap;
+      cursor: pointer;
+      font-size: 30px;
+      color: #ccc;
+    }
+    .rate:not(:checked) > label:before {
+      content: "★ ";
+    }
+    .rate > input:checked ~ label {
+      color: #ffc700;
+    }
+    .rate:not(:checked) > label:hover,
+    .rate:not(:checked) > label:hover ~ label {
+      color: #deb217;
+    }
+    .rate > input:checked + label:hover,
+    .rate > input:checked + label:hover ~ label,
+    .rate > input:checked ~ label:hover,
+    .rate > input:checked ~ label:hover ~ label,
+    .rate > label:hover ~ input:checked ~ label {
+      color: #c59b08;
+    }
+    </style>
+    
+        <div class="rate" style="margin: 0;">
+          <input type="radio" id="star5" name="rate" value="5" />
+          <label for="star5" title="text">5 stars</label>
+          <input type="radio" id="star4" name="rate" value="4" />
+          <label for="star4" title="text">4 stars</label>
+          <input type="radio" id="star3" name="rate" value="3" />
+          <label for="star3" title="text">3 stars</label>
+          <input type="radio" id="star2" name="rate" value="2" />
+          <label for="star2" title="text">2 stars</label>
+          <input type="radio" id="star1" name="rate" value="1" />
+          <label for="star1" title="text">1 star</label>
+        </div>
+    <!--end of rating--> 
+    <br>
+        <br><p style="font-weight: bolder; color: rgb(214, 29, 29);">Цена: {{ product.price }} Сом</p>
         <p><p style="font-weight: 500;">Описание:</p>{{ product.description }}</p>
         <hr>
         <a href="{% url 'add_to_cart' ct_model=ct_model slug=product.slug %}"><button class="btn btn-info">Добавить в корзину</button></a>
@@ -47,52 +108,21 @@
         <div class="media-body">
           <div class="d-sm-flex justify-content-between">
             <p class="mt-1 mb-2">
-              <strong>ФИО клиента</strong>
-              <span>– </span><span>Дата отзыва: </span>
+              <strong>ФИО клиента</strong><br>
+              <span>Дата отзыва: </span>
             </p>
-            <div class="stars">
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
-              <span class="fa fa-star"></span>
-          </div>
+            
           </div>
           <p class="mb-0">Nice one, love it!</p>
         </div>
       </div>
       <hr>
-      <h5 class="mt-4">Оставьте свой отзыв о товаре</h5>
-      <p>Ваша электронная почта не будет публиковаться</p>
-      <div class="my-3">
-        <ul class="rating mb-0">
-          <li>
-            <a href="#!">
-              <i class="fas fa-star fa-sm text-primary"></i>
-            </a>
-          </li>
-          <li>
-            <a href="#!">
-              <i class="fas fa-star fa-sm text-primary"></i>
-            </a>
-          </li>
-          <li>
-            <a href="#!">
-              <i class="fas fa-star fa-sm text-primary"></i>
-            </a>
-          </li>
-          <li>
-            <a href="#!">
-              <i class="fas fa-star fa-sm text-primary"></i>
-            </a>
-          </li>
-          <li>
-            <a href="#!">
-              <i class="far fa-star fa-sm text-primary"></i>
-            </a>
-          </li>
-        </ul>
-      </div>
+      <h5 class="mt-4">Оставьте свой отзыв о нашем товаре</h5>
+      
+      
+      
+
+       
       <div>
         <!-- Your review -->
         <div class="md-form md-outline">
@@ -110,7 +140,7 @@
         <div class="md-form md-outline">
           <label for="form77">Email</label>
           <input type="email" id="form77" class="form-control pr-6">
-        </div>
+        </div><br>
         <div class="text-right pb-2">
           <button type="button" class="btn btn-primary">Отправить</button>
         </div>
