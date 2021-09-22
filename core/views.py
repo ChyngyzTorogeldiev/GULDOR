@@ -1,5 +1,5 @@
 from django.db import transaction
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.contenttypes.models import ContentType
 from django.contrib import messages
 from django.http import HttpResponseRedirect, HttpResponse
@@ -103,16 +103,19 @@ class CategoryDetailView(CartMixin, CategoryDetailMixin, DetailView):
 class AddToCartView(CartMixin, View):
 
     def get(self, request, *args, **kwargs):
-        ct_model, product_slug = kwargs.get('ct_model'), kwargs.get('slug')
-        content_type = ContentType.objects.get(model=ct_model)
-        product = content_type.model_class().objects.get(slug=product_slug)
-        cart_product, created = CartProduct.objects.get_or_create(
-            user=self.cart.owner, cart=self.cart, content_type=content_type, object_id=product.id
-        )
-        if created:
-            self.cart.products.add(cart_product)
-        recalc_cart(self.cart)
-        messages.add_message(request, messages.INFO, "Товар успешно добавлен")
+        try:
+            ct_model, product_slug = kwargs.get('ct_model'), kwargs.get('slug')
+            content_type = ContentType.objects.get(model=ct_model)
+            product = content_type.model_class().objects.get(slug=product_slug)
+            cart_product, created = CartProduct.objects.get_or_create(
+                user=self.cart.owner, cart=self.cart, content_type=content_type, object_id=product.id
+            )
+            if created:
+                self.cart.products.add(cart_product)
+                recalc_cart(self.cart)
+                messages.add_message(request, messages.INFO, "Товар успешно добавлен")
+        except:
+            redirect('account:register')
         return HttpResponseRedirect('/cart/')
 
 

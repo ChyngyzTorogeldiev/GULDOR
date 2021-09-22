@@ -23,9 +23,7 @@ from django.conf.urls import url
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
-    path('flowertypes/', include('flowertypes.urls')),
-    path('anniversaryfl/', include('anniversaryfl.urls')),
-    path('homeflowers/', include('homeflowers.urls')),
+    path('flowercare/', include('flowercare.urls')),
     path('campaign/', include('campaign.urls')),
     path('account/', include('account.urls')),
 ]
