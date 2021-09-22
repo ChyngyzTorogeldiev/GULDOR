@@ -13,6 +13,7 @@
 
   <title>Flower online store</title>
 
+
   <!-- Bootstrap core CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
@@ -20,6 +21,9 @@
   <link href="css/shop-homepage.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Varela+Round">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
 
 </head>
 
@@ -94,35 +98,38 @@
               <img src="{% static 'media/basket.png' %}" width="36"><span class="badge badge-pill badge-danger">{{ cart.products.count }}</span>
             </a>
 
-
-
-            <!--Login icons-->
-
-
-            <a class="navbar-brand" href="http://127.0.0.1:8000/account/login">
-              
-              <img src="{% static 'media/login.png' %}" width="32"><span class="badge badge-pill badge-danger"></span></a>
-               {% if user.is_authenticated %}     
-                <li class="menu-right">Привет, {{ user.username }}!</li>
+            <nav class="navbar navbar-light bg-white">
+              <div class="btn-group">
+                <button type="button" class="btn btn-outline-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Аккаунт
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="{% url 'account:login' %}">Войти в аккаунт</a>
                   
-                {% endif %}
-             
+                  <a class="dropdown-item" href="{% url 'account:logout' %}">Выйти из аккаунта</a>
+                  {% block menu_links %}{% endblock %}
+                  <a class="dropdown-item" href="{% url 'account:register' %}">Регистрация</a>
+                  
+              </div>
+            </nav>
 
-            <a class="navbar-brand" href="http://127.0.0.1:8000/account/logout">
-              {% block menu_links %}{% endblock %}
-              <img src="{% static 'media/logout.png' %}" width="32"><span class="badge badge-pill badge-danger"></span>
-            </a> 
+            <nav class="navbar navbar-light bg-white">
+
+              {% if user.is_authenticated %}   
             
+                  <li class="menu-right">Привет, {{ user.username }}!</li>
+    
+                  {% endif %}
+    
+            </nav>
           </div>
-
         </nav>
-   
     </div>
-
   </nav>
 
-  <!-- Карусель слайдер -->
 
+
+  <!-- Карусель слайдер -->
 
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="width: 100%;">
   <ol class="carousel-indicators">
@@ -150,7 +157,7 @@
       <span class="sr-only">Next</span>
     </a>
 </div>
-
+<!-- End of Карусель слайдер -->
 <br>
 
   <!-- Page Content -->

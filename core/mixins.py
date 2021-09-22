@@ -1,5 +1,6 @@
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic import View
+from django.shortcuts import render, redirect
 
 from .models import Category, Cart, Customer, Flower, Flowerinpot, WeddingFlower, OtherFlower
 
@@ -31,9 +32,10 @@ class CartMixin(View):
         if request.user.is_authenticated:
             customer = Customer.objects.filter(user=request.user).first()
             if not customer:
+               
                 customer = Customer.objects.create(
-                    user=request.user
-                )
+                    user=request.user)
+                
             cart = Cart.objects.filter(owner=customer, in_order=False).first()
             if not cart:
                 cart = Cart.objects.create(owner=customer)

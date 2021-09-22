@@ -1,7 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h3 class="text-center mt-5 mb-5">Ваша корзина {% if not cart.products.count %}пуста{% endif %}</h3>
+
+{% if user.is_authenticated %}
+  <h3 class="text-center mt-5 mb-5">Ваша корзина {% if not cart.products.count %}пуста{% endif %}</h3>
+{% else %}
+  <h5>Зарегистрируйтесь чтобы добавлять в корзину, либо войдите в свой аккаунт</h5>
+  <a href="{% url 'account:register' %}"><p>Регистрация</p></a>
+  
+  <a href="{% url 'account:login' %}"><p>Войти</p></a>
+{% endif %}
 {% if messages %}
     {% for message in messages %}
       <div class="alert alert-success alert-dismissible fade show" role="alert">
