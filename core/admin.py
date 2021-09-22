@@ -1,7 +1,16 @@
 from django.forms import ModelChoiceField, ModelForm
 from django.contrib import admin
-
 from .models import *
+
+
+class FlowerinpotAdmin(admin.ModelAdmin):
+
+    change_form_template = 'admin.html'
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'category':
+            return ModelChoiceField(Category.objects.filter(slug='flowerinpots'))
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 class FlowerinpotAdminForm(ModelForm):
@@ -20,6 +29,7 @@ class FlowerinpotAdminForm(ModelForm):
         return self.cleaned_data
 
 
+
 class FlowerAdmin(admin.ModelAdmin):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
@@ -28,19 +38,30 @@ class FlowerAdmin(admin.ModelAdmin):
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
-class FlowerinpotAdmin(admin.ModelAdmin):
 
-    change_form_template = 'admin.html'
+
+class WeddingFlowerAdmin(admin.ModelAdmin):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'category':
-            return ModelChoiceField(Category.objects.filter(slug='flowerinpots'))
+            return ModelChoiceField(Category.objects.filter(slug='weddingflowers'))
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+
+
+class OtherFlowerAdmin(admin.ModelAdmin):
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'category':
+            return ModelChoiceField(Category.objects.filter(slug='otherflowers'))
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 admin.site.register(Category)
 admin.site.register(Flower, FlowerAdmin)
 admin.site.register(Flowerinpot, FlowerinpotAdmin)
+admin.site.register(WeddingFlower, WeddingFlowerAdmin)
+admin.site.register(OtherFlower, OtherFlowerAdmin)
 admin.site.register(CartProduct)
 admin.site.register(Cart)
 admin.site.register(Customer)
