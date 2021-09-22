@@ -1,9 +1,11 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.views import View
-from django.views.generic import FormView, DetailView
+from django.views.generic import FormView, DetailView, TemplateView
 from .models import *
 from .forms import *
 from django.utils import timezone 
+from django.contrib.auth.forms import AuthenticationForm
+
 
 
 
