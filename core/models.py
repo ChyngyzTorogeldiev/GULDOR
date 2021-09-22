@@ -45,15 +45,17 @@ class LatestProducts:
 class CategoryManager(models.Manager):
 
     CATEGORY_NAME_COUNT_NAME = {
-        'Цветы': 'flower__count',
-        'Цветы в горшках': 'flowerinpot__count'
+        'Букеты из роз': 'flower__count',
+        'Цветы в горшках': 'flowerinpot__count',
+        'Свадебные букеты': 'weddingflower__count',
+        'Другие виды цветов': 'otherflower__count',
     }
 
     def get_queryset(self):
         return super().get_queryset()
 
     def get_categories_for_left_sidebar(self):
-        models = get_models_for_count('flower', 'flowerinpot')
+        models = get_models_for_count('flower', 'flowerinpot', 'weddingflower', 'otherflower')
         qs = list(self.get_queryset().annotate(*models))
         data = [
             dict(name=c.name, url=c.get_absolute_url(), count=getattr(c, self.CATEGORY_NAME_COUNT_NAME[c.name]))
@@ -96,11 +98,34 @@ class Product(models.Model):
 
 class Flower(Product):
 
-    history = models.CharField(max_length=255, verbose_name='История')
-    country = models.CharField(max_length=255, verbose_name='Строна')
-    scent = models.CharField(max_length=255, verbose_name='Аромат')
-    composition = models.CharField(max_length=255, verbose_name='Состав')
-    size = models.CharField(max_length=255, verbose_name='Размер')
+    quantity = models.IntegerField(default=0, verbose_name='Количество роз в букете')
+    size = models.IntegerField(blank=True, default=0, verbose_name='Высота/Длина')
+    greeting_card = models.CharField(max_length=100, verbose_name='Наличие поздравителной карты')
+
+    def __str__(self):
+        return "{} : {}".format(self.category.name, self.title)
+
+    def get_absolute_url(self):
+        return get_product_url(self, 'product_detail')
+
+
+class WeddingFlower(Product):
+
+    size = models.IntegerField(blank=True, default=0, verbose_name='Высота/Длина')
+    butonniere = models.CharField(max_length=255, verbose_name='Бутоньерка')
+    b_image = models.ImageField(verbose_name='Фото бутоньерки')
+
+    def __str__(self):
+        return "{} : {}".format(self.category.name, self.title)
+
+    def get_absolute_url(self):
+        return get_product_url(self, 'product_detail')
+
+
+class OtherFlower(Product):
+
+    size = models.IntegerField(blank=True, default=0, verbose_name='Высота/Длина')
+    greeting_card = models.CharField(max_length=100, verbose_name='Наличие поздравителной карты')
 
     def __str__(self):
         return "{} : {}".format(self.category.name, self.title)
@@ -111,12 +136,8 @@ class Flower(Product):
 
 class Flowerinpot(Product):
 
-    history = models.CharField(max_length=255, verbose_name='История')
-    country = models.CharField(max_length=255, verbose_name='Строна')
-    scent = models.CharField(max_length=255, verbose_name='Аромат')
-    composition = models.CharField(max_length=255, verbose_name='Состав')
-    size = models.CharField(max_length=255, verbose_name='Размер')
-    greeting_card = models.BooleanField(default=True, verbose_name='Наличие поздравителной карты')
+    size = models.IntegerField(blank=True, default=0, verbose_name='Высота/Длина')
+    greeting_card = models.CharField(max_length=100, verbose_name='Наличие поздравителной карты')
     pot_size = models.CharField(
         max_length=255, null=True, blank=True, verbose_name='Размер цветочного горшка'
     )
