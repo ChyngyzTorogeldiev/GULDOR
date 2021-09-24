@@ -1,5 +1,4 @@
 from django import forms
-
 from .models import Order
 
 
@@ -16,3 +15,4 @@ class OrderForm(forms.ModelForm):
         fields = (
             'first_name', 'last_name', 'phone', 'address', 'buying_type', 'order_date', 'comment'
         )
+

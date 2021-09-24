@@ -57,6 +57,11 @@ class OtherFlowerAdmin(admin.ModelAdmin):
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
+
+
+
+
+
 admin.site.register(Category)
 admin.site.register(Flower, FlowerAdmin)
 admin.site.register(Flowerinpot, FlowerinpotAdmin)
@@ -66,3 +71,4 @@ admin.site.register(CartProduct)
 admin.site.register(Cart)
 admin.site.register(Customer)
 admin.site.register(Order)
+

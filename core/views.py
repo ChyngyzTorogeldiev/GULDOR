@@ -1,19 +1,18 @@
 from django.db import transaction
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic import DetailView, View, ListView
-
+from others.models import *
 from .models import *
 from .mixins import CategoryDetailMixin, CartMixin
-from .forms import OrderForm
+from .forms import *
 from .utils import recalc_cart
+from django.views.decorators.csrf import csrf_exempt
 
 
-class DeliveryPage(View):
-    def get(self, request, *args, **kwargs):
-        return render(request, 'core/delivery.html')
 
 
 class BaseView(CartMixin, View):
@@ -21,43 +20,16 @@ class BaseView(CartMixin, View):
     def get(self, request, *args, **kwargs):
         categories = Category.objects.get_categories_for_left_sidebar()
         products = LatestProducts.objects.get_products_for_main_page(
-            'flower', 'flowerinpot', 'weddingflower', 'otherflower', with_respect_to='flower'
-        )
+            'flower', 'flowerinpot', 'weddingflower', 'otherflower', with_respect_to='flower')
+
         context = {
             'categories': categories,
             'products': products,
             'cart': self.cart
         }
+
         return render(request, 'base.html', context)
 
-
-# def search_bar(request):
-#     try:
-#         q = request.GET.get('q')
-#     except:
-#         q = None 
-#     if q:
-#         goods = Flower.objects.filter(title__icontains=q)
-#         context = {'query': q, 'goods': goods}
-#         template = 'search.html'
-#         context = {}
-#     return render(request, template, context)
-
-
-
-class SearchList(ListView):
-    paginate_by = 3
-
-    def get_queryset(self):
-        return Flower.objects.filter(title__icontains=self.request.GET.get("q"))
-
-    def get_products_data(request, self,*args, **kwargs):
-        try:
-            products = super().get_products_data(*args, **kwargs)
-            products["q"] = self.request.GET.get("q")
-            return products
-        except:
-            return HttpResponse('По Вашему запросу ничего не найдено')
 
 
 class ProductDetailView(CartMixin, CategoryDetailMixin, DetailView):
@@ -79,7 +51,9 @@ class ProductDetailView(CartMixin, CategoryDetailMixin, DetailView):
     template_name = 'product_detail.html'
     slug_url_kwarg = 'slug'
 
+
     def get_context_data(self, **kwargs):
+        
         context = super().get_context_data(**kwargs)
         context['ct_model'] = self.model._meta.model_name
         context['cart'] = self.cart
@@ -202,3 +176,41 @@ class MakeOrderView(CartMixin, View):
             messages.add_message(request, messages.INFO, 'Спасибо за заказ! Менеджер с Вами свяжется')
             return HttpResponseRedirect('/')
         return HttpResponseRedirect('/checkout/')
+
+
+class DeliveryPage(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'core/delivery.html')
+
+
+# def search_bar(request):
+#     try:
+#         q = request.GET.get('q')
+#     except:
+#         q = None 
+#     if q:
+#         goods = Flower.objects.filter(title__icontains=q)
+#         context = {'query': q, 'goods': goods}
+#         template = 'search.html'
+#         context = {}
+#     return render(request, template, context)
+
+
+
+class SearchList(ListView):
+    paginate_by = 3
+
+    def get_queryset(self):
+        return Flower.objects.filter(title__icontains=self.request.GET.get("q"))
+
+    def get_products_data(request, self,*args, **kwargs):
+        try:
+            products = super().get_products_data(*args, **kwargs)
+            products["q"] = self.request.GET.get("q")
+            return products
+        except:
+            return HttpResponse('По Вашему запросу ничего не найдено')
+
+
+
+
