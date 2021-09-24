@@ -2,9 +2,12 @@ from django import forms
 from .models import *
 
 
-
-
-class ReviewForm(forms.ModelForm):
+class CommentForm(forms.ModelForm):
     class Meta:
-        model = Review
-        fields = ['author', 'text']
+        model = Comment
+        fields = ('name', 'email', 'body')
+
+# class ReviewForm(forms.ModelForm):
+#     class Meta:
+#         model = Review
+#         fields = ['author', 'text']

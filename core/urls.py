@@ -3,23 +3,7 @@ from django.contrib import admin
 from django.conf.urls.static import static 
 from django.conf import settings
 from . import views
-
-from .views import (
-    BaseView,
-    ProductDetailView,
-    CategoryDetailView,
-    CartView,
-    AddToCartView,
-    DeleteFromCartView,
-    ChangeQTYView,
-    CheckoutView,
-    MakeOrderView,
-    DeliveryPage,
-    ListView,
-    # search_bar,
-    SearchList,
-    
-)
+from .views import *
 
 
 urlpatterns = [
@@ -34,5 +18,6 @@ urlpatterns = [
     path('make-order/', MakeOrderView.as_view(), name='make_order'),
     path('delivery', DeliveryPage.as_view(), name='delivery'),
     path('s/', SearchList.as_view(), name='search'),
+    
     # path('s/', search_bar, name='search')  
 ]

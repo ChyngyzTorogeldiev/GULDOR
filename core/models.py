@@ -1,10 +1,12 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.models import User
+
 
 User = get_user_model()
 
@@ -90,11 +92,13 @@ class Product(models.Model):
     description = models.TextField(verbose_name='Описание', null=True)
     price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Цена')
 
+
     def __str__(self):
         return self.title
 
     def get_model_name(self):
         return self.__class__.__name__.lower()
+
 
 
 class Flower(Product):
@@ -224,7 +228,7 @@ class Order(models.Model):
     address = models.CharField(max_length=1024, verbose_name='Адрес', null=True, blank=True)
     status = models.CharField(
         max_length=100,
-        verbose_name='Статус заказ',
+        verbose_name='Статус заказа',
         choices=STATUS_CHOICES,
 
         default=STATUS_NEW
@@ -241,3 +245,5 @@ class Order(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+

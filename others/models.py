@@ -2,26 +2,31 @@ from django.db import models
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.models import User
-from .models import *
+from core.models import Product, Flower
 from django.utils import timezone
 
 
 
+# class Comment(models.Model):
+#     product = models.ForeignKey(Flower,on_delete=models.CASCADE,related_name='comments')
+#     name = models.CharField(max_length=80)
+#     email = models.EmailField()
+#     body = models.TextField()
+#     created_on = models.DateTimeField(auto_now_add=True)
+#     active = models.BooleanField(default=False)
+
+#     class Meta:
+#         ordering = ['created_on']
+
+#     def __str__(self):
+#         return 'Комментарии {} от {}'.format(self.body, self.name)
 
 
-class Review(models.Model):
-    author = models.CharField(max_length=50)
+# class ProductReview(models.Model):
+#     product = models.ForeignKey('ProductReview', Product, related_name='reviews')
+#     user = models.ForeignKey(User, related_name='reviews', on_delete=models.CASCADE) 
 
-    # goods = models.ForeignKey(to=RosesBouquets, on_delete=models.CASCADE,
-    # verbose_name='Товар')
+#     content = models.TextField(blank=True, null=True)
+#     stars = models.IntegerField()
+#     date_added = models.DateTimeField(auto_now_add=True)
 
-    text = models.TextField(verbose_name='Отзыв')
-
-    # checked = models.BooleanField(default=False, verbose_name='Обработано')
-
-    def __str__(self):
-        return self.text[:20]
-
-    class Meta:
-        verbose_name = 'Отзыв'
-        verbose_name_plural = 'Отзывы'

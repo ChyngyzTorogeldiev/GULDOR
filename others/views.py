@@ -1,18 +1,38 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.views import View
-from django.views.generic import FormView, DetailView, TemplateView
+from django.views import generic 
 from .models import *
-from .forms import *
-from django.utils import timezone 
+from .forms import CommentForm
 from django.contrib.auth.forms import AuthenticationForm
+from core.models import Product
+from core.views import *
 
 
 
 
-def review(request):
-    review_object = Review.objects.all()
-    return render(request, 'reviews/review.html',
-    {'review_object': review_object})
+# def product_detail(request, slug):
+#     template_name = 'review.html'
+#     product = get_object_or_404(Flower(), slug=slug)
+#     comments = product.comments.filter(active=True)
+#     new_comment = None
+ 
+#     if request.method == 'POST':
+#         comment_form = CommentForm(data=request.POST)
+#         if comment_form.is_valid():
+
+           
+#             new_comment = comment_form.save(commit=False)
+          
+#             new_comment.product = product
+       
+#             new_comment.save()
+#     else:
+#         comment_form = CommentForm()
+
+#     return render(request, template_name, {'product': product,
+#                                            'comments': comments,
+#                                            'new_comment': new_comment,
+#                                            'comment_form': comment_form})
 
 
 
